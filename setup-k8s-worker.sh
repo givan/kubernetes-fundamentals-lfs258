@@ -1,0 +1,1 @@
+printf "# alias for k8s control plane:\n$K8S_CP k8scp\n" | sudo tee -a /etc/hosts > /dev/null
