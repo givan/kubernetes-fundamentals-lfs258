@@ -1,0 +1,38 @@
+# you can use kubectl run multitool --image=praqma/network-multitool to create a pod with 
+# network installed tools such as dig, ping, nslookup, etc
+apiVersion: apps/v1
+kind: Deployment # Describes the resource defined in this file.
+metadata:
+  name: nginx-one
+  labels:
+    system: secondary
+  namespace: accounting # Required string which defines object within namespace.
+# Existing namespace resource will be deployed into.
+spec:
+  selector:
+    matchLabels:
+      system: secondary # Declaration of the label for the deployment to manage
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        system: secondary
+# Some string meaningful to users, not cluster. Keys
+# must be unique for each object. Allows for mapping
+# to customer needs.
+    spec:
+      containers:
+# Array of objects describing containerized application with a Pod.
+# Referenced with shorthand spec.template.spec.containers
+      - image: nginx:1.20.1
+# The Docker image to deploy
+        imagePullPolicy: Always
+        name: nginx # Unique name for each container, use local or Docker repo image
+        resources: {}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+# Optional resources this container may need to function.
+      nodeSelector:
+        system: secondOne
+# One method of node affinity. 
