@@ -1,6 +1,15 @@
-# setup cilium as per https://docs.cilium.io/en/latest/gettingstarted/k8s-install-default/
+# start a new cluster
+echo "kubeadm version: $(kubeadm version)"
 
-AZURE_RESOURCE_GROUP='george.ivanov-rg'
+# create the K8s cluster
+sudo kubeadm init --config=kubeadm-config.yaml --upload-certs | tee kubeadm-init.out
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# setup cilium as per https://docs.cilium.io/en/latest/gettingstarted/k8s-install-default/
+AZURE_RESOURCE_GROUP='george.ivanov-rg' # TODO - replace - make this a env variable
 
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 CLI_ARCH=amd64
