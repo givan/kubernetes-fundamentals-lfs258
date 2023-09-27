@@ -9,8 +9,6 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # setup cilium as per https://docs.cilium.io/en/latest/gettingstarted/k8s-install-default/
-AZURE_RESOURCE_GROUP='george.ivanov-rg' # TODO - replace - make this a env variable
-
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 CLI_ARCH=amd64
 if [ "$(uname -m)" = "aarch64" ]; then CLI_ARCH=arm64; fi
@@ -22,4 +20,4 @@ rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 git clone https://github.com/cilium/cilium
 cd cilium
 
-cilium install --chart-directory ./install/kubernetes/cilium --set azure.resourceGroup="${AZURE_RESOURCE_GROUP}"
+cilium install --chart-directory ./install/kubernetes/cilium
